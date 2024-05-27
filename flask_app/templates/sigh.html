@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <script defer type="text/javascript" src="{{ url_for('static', filename='script.js') }}"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="/">Welcome {{loggedUser.username}} </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+              <a class="nav-link active" aria-current="page" href="/dashboard">Dashboard</a>
+              <a class="nav-link" href="/logout">Logout</a>
+
+            </div>
+          </div>
+        </div>
+      </nav>
+        
+      <h1 class="text-center mt-2">Sasquatch Websighting</h1>
+      <div class="text-center">
+        <p>Location: {{sigh.location}}</p>
+        <p>What happened: {{sigh.whatHappened}}</p>
+        <p>Date of Setting: {{sigh.date_of_setting}}</p>
+        <p># of Sasquatches: {{sigh.of_sasquatches}}</p>
+        <p>Last updated: {{sigh.updated_at}}</p>
+        <p>Reported by: {{sigh.username}}</p>
+        <h4 onmouseenter="showSkeptics('skeptics')" onmouseleave="hideSkeptics('skeptics')">I'm skeptical: {{usersskeptic|length}}</h4>
+        <h2>All sceptics</h2>
+        <div id="skeptics" class="d-none">
+          {% for pers in skepticsDetails %}
+          <p>{{pers.email}}</p>
+          {% endfor %}
+        </div>
+        {% if loggedUser.id in usersskeptics %}
+        <a class="btn btn-warning" href="/believe/{{sigh.id}}">I'm skeptical</a>      
+        {% else %}
+        <a class="btn btn-primary" href="/skeptic/{{sigh.id}}">Believe it</a>      
+        {% endif %}
+</body>
+</html>
